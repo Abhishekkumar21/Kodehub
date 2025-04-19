@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ArrowLeft, Github, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 
 function Auth(){
+    const location = useLocation();
+    const [activeTab, setActiveTab] = useState('login');
+
+    useEffect(() => {
+      if(location.state?.tab == 'signup') {
+        setActiveTab('signup');
+      }
+    }, [location.state])
+
+
     const [showPassword,setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
@@ -86,7 +96,10 @@ function Auth(){
                   </Link>
                 </div>
         
-                <Tabs defaultValue="login" className="w-full">
+                <Tabs defaultValue="login"
+                      value = {activeTab}
+                      onValueChange={setActiveTab}
+                      className="w-full">
                   <TabsList className="grid w-full grid-cols-2 mb-8">
                     <TabsTrigger value="login">Login</TabsTrigger>
                     <TabsTrigger value="signup">Sign Up</TabsTrigger>
