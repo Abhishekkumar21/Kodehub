@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Bell, Plus, ChevronDown, CodeIcon } from 'lucide-react';
+import { Search, Bell, Plus, ChevronDown, CodeIcon, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const isAuthenticated = false; // this would be coming from the auth context of backend service.
 
   return (
     <header className="w-full border-b border-border bg-background sticky top-0 z-50">
@@ -45,43 +46,57 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <Bell size={20} />
-          </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="gap-1">
-                <Plus size={16} />
-                <ChevronDown size={16} />
+          {isAuthenticated ? (
+              //Authenticated UI
+            <>
+              <Button variant="ghost" size="icon" className="text-muted-foreground">
+                <Bell size={20} />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem>New repository</DropdownMenuItem>
-              <DropdownMenuItem>Import repository</DropdownMenuItem>
-              <DropdownMenuItem>New organization</DropdownMenuItem>
-              <DropdownMenuItem>New issue</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1">
+                  <Plus size={16} />
+                  <ChevronDown size={16} />
+                </Button>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="" />
-                  <AvatarFallback>You</AvatarFallback>
-                </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem>New repository</DropdownMenuItem>
+                  <DropdownMenuItem>Import repository</DropdownMenuItem>
+                  <DropdownMenuItem>New organization</DropdownMenuItem>
+                  <DropdownMenuItem>New issue</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="" />
+                      <AvatarFallback>You</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem>Your profile</DropdownMenuItem>
+                  <DropdownMenuItem>Your repositories</DropdownMenuItem>
+                  <DropdownMenuItem>Your organizations</DropdownMenuItem>
+                  <DropdownMenuItem>Your projects</DropdownMenuItem>
+                  <DropdownMenuItem>Your stars</DropdownMenuItem>
+                  <DropdownMenuItem>Sign out</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+            </>
+          ) : (
+              // Non-authenticated UI
+              <Link to="/auth">
+              <Button variant="outline" size="sm" className="gap-1">
+                <LogIn size={16} />
+                <span>Sign In</span>
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem>Your profile</DropdownMenuItem>
-              <DropdownMenuItem>Your repositories</DropdownMenuItem>
-              <DropdownMenuItem>Your organizations</DropdownMenuItem>
-              <DropdownMenuItem>Your projects</DropdownMenuItem>
-              <DropdownMenuItem>Your stars</DropdownMenuItem>
-              <DropdownMenuItem>Sign out</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </Link>
+          )}          
         </div>
       </div>
     </header>
