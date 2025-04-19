@@ -1,7 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { CodeIcon, StarIcon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const handleSignup = () => {
+    navigate('/auth', {state : {tab: 'signup'}})
+  }
   return (
     <div className="bg-gradient-to-b from-secondary to-background py-16">
       <div className="container mx-auto px-4 text-center">
@@ -18,7 +24,8 @@ const Hero = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <Button className="bg-kodehub-purple hover:bg-kodehub-purple/90 text-white px-8 py-6 h-auto">
+          <Button className="bg-kodehub-purple hover:bg-kodehub-purple/90 text-white px-8 py-6 h-auto"
+                   onClick={handleSignup}>
             Sign up for KodeHub
           </Button>
           <Button variant="outline" className="bg-transparent border-kodehub-purple text-kodehub-purple hover:bg-kodehub-purple/10 px-8 py-6 h-auto">
